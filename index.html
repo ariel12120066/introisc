@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<style type="text/css">
+
+/* Circle Text Styles */
+
+#outerCircleText {
+
+/* Optional - DO NOT SET FONT-SIZE HERE, SET IT IN THE SCRIPT */
+
+font-style: italic;
+
+font-weight: bold;
+
+font-family: 'comic sans ms', verdana, arial;
+
+color: #FF0033;
+
+/* End Optional */
+
+
+
+/* Start Required - Do Not Edit */
+
+position: absolute;top: 0;left: 0;z-index: 3000;cursor: default;}
+
+#outerCircleText div {position: relative;}
+
+#outerCircleText div div {position: absolute;top: 0;left: 0;text-align: center;}
+
+/* End Required */
+
+/* End Circle Text Styles */
+
+</style>
+
+<script type="text/javascript">
+
+
+
+/* Circling text trail- Tim Tilton
+
+   Website: http://www.tempermedia.com/
+
+   Visit: http://www.dynamicdrive.com/ for Original Source and tons of scripts
+
+   Modified Here for more flexibility and modern browser support
+
+   Modifications as first seen in http://www.dynamicdrive.com/forums/
+
+   username:jscheuer1 - This notice must remain for legal use
+
+   */
+
+
+
+;(function(){
+
+
+
+// Your message here (QUOTED STRING)
+
+var msg = "Dynamic Drive! Scripts & More!";
+
+
+
+/* THE REST OF THE EDITABLE VALUES BELOW ARE ALL UNQUOTED NUMBERS */
+
+
+
+// Set font's style size for calculating dimensions
+
+// Set to number of desired pixels font size (decimal and negative numbers not allowed)
+
+var size = 24;
+
+
+
+// Set both to 1 for plain circle, set one of them to 2 for oval
+
+// Other numbers & decimals can have interesting effects, keep these low (0 to 3)
+
+var circleY = 0.75; var circleX = 2;
+
+
+
+// The larger this divisor, the smaller the spaces between letters
+
+// (decimals allowed, not negative numbers)
+
+var letter_spacing = 5;
+
+
+
+// The larger this multiplier, the bigger the circle/oval
+
+// (decimals allowed, not negative numbers, some rounding is applied)
+
+var diameter = 10;
+
+
+
+// Rotation speed, set it negative if you want it to spin clockwise (decimals allowed)
+
+var rotation = 0.4;
+
+
+
+// This is not the rotation speed, its the reaction speed, keep low!
+
+// Set this to 1 or a decimal less than one (decimals allowed, not negative numbers)
+
+var speed = 0.3;
+
+
+
+////////////////////// Stop Editing //////////////////////
+
+
+
+if (!window.addEventListener && !window.attachEvent || !document.createElement) return;
+
+
+
+msg = msg.split('');
+
+var n = msg.length - 1, a = Math.round(size * diameter * 0.208333), currStep = 20,
+
+ymouse = a * circleY + 20, xmouse = a * circleX + 20, y = [], x = [], Y = [], X = [],
+
+o = document.createElement('div'), oi = document.createElement('div'),
+
+b = document.compatMode && document.compatMode != "BackCompat"? document.documentElement : document.body,
+
+
+
+mouse = function(e){
+
+ e = e || window.event;
+
+ ymouse = !isNaN(e.pageY)? e.pageY : e.clientY; // y-position
+
+ xmouse = !isNaN(e.pageX)? e.pageX : e.clientX; // x-position
+
+},
+
+
+
+makecircle = function(){ // rotation/positioning
+
+ if(init.nopy){
+
+  o.style.top = (b || document.body).scrollTop + 'px';
+
+  o.style.left = (b || document.body).scrollLeft + 'px';
+
+ };
+
+ currStep -= rotation;
+
+ for (var d, i = n; i > -1; --i){ // makes the circle
+
+  d = document.getElementById('iemsg' + i).style;
+
+  d.top = Math.round(y[i] + a * Math.sin((currStep + i) / letter_spacing) * circleY - 15) + 'px';
+
+  d.left = Math.round(x[i] + a * Math.cos((currStep + i) / letter_spacing) * circleX) + 'px';
+
+ };
+
+},
+
+
+
+drag = function(){ // makes the resistance
+
+ y[0] = Y[0] += (ymouse - Y[0]) * speed;
+
+ x[0] = X[0] += (xmouse - 20 - X[0]) * speed;
+
+ for (var i = n; i > 0; --i){
+
+  y[i] = Y[i] += (y[i-1] - Y[i]) * speed;
+
+  x[i] = X[i] += (x[i-1] - X[i]) * speed;
+
+ };
+
+ makecircle();
+
+},
+
+
+
+init = function(){ // appends message divs, & sets initial values for positioning arrays
+
+ if(!isNaN(window.pageYOffset)){
+
+  ymouse += window.pageYOffset;
+
+  xmouse += window.pageXOffset;
+
+ } else init.nopy = true;
+
+ for (var d, i = n; i > -1; --i){
+
+  d = document.createElement('div'); d.id = 'iemsg' + i;
+
+  d.style.height = d.style.width = a + 'px';
+
+  d.appendChild(document.createTextNode(msg[i]));
+
+  oi.appendChild(d); y[i] = x[i] = Y[i] = X[i] = 0;
+
+ };
+
+ o.appendChild(oi); document.body.appendChild(o);
+
+ setInterval(drag, 25);
+
+},
+
+
+
+ascroll = function(){
+
+ ymouse += window.pageYOffset;
+
+ xmouse += window.pageXOffset;
+
+ window.removeEventListener('scroll', ascroll, false);
+
+};
+
+
+
+o.id = 'outerCircleText'; o.style.fontSize = size + 'px';
+
+
+
+if (window.addEventListener){
+
+ window.addEventListener('load', init, false);
+
+ document.addEventListener('mouseover', mouse, false);
+
+ document.addEventListener('mousemove', mouse, false);
+
+  if (/Apple/.test(navigator.vendor))
+
+   window.addEventListener('scroll', ascroll, false);
+
+}
+
+else if (window.attachEvent){
+
+ window.attachEvent('onload', init);
+
+ document.attachEvent('onmousemove', mouse);
+
+};
+
+
+
+})();
+
+
+
+</script>
+<script language="JavaScript">
+
+/*
+Dynamic Calendar II (By Jason Moon at http://www.jasonmoon.net)
+Permission granted to Dynamicdrive.com to include script in archive
+For this and 100's more DHTML scripts, visit http://dynamicdrive.com
+*/
+
+var ns6=document.getElementById&&!document.all
+var ie4=document.all
+
+var Selected_Month;
+var Selected_Year;
+var Current_Date = new Date();
+var Current_Month = Current_Date.getMonth();
+
+var Days_in_Month = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+var Month_Label = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+
+var Current_Year = Current_Date.getYear();
+if (Current_Year < 1000)
+Current_Year+=1900
+
+
+var Today = Current_Date.getDate();
+
+function Header(Year, Month) {
+
+   if (Month == 1) {
+   Days_in_Month[1] = ((Year % 400 == 0) || ((Year % 4 == 0) && (Year % 100 !=0))) ? 29 : 28;
+   }
+   var Header_String = Month_Label[Month] + ' ' + Year;
+   return Header_String;
+}
+
+
+
+function Make_Calendar(Year, Month) {
+   var First_Date = new Date(Year, Month, 1);
+   var Heading = Header(Year, Month);
+   var First_Day = First_Date.getDay() + 1;
+   if (((Days_in_Month[Month] == 31) && (First_Day >= 6)) ||
+       ((Days_in_Month[Month] == 30) && (First_Day == 7))) {
+      var Rows = 6;
+   }
+   else if ((Days_in_Month[Month] == 28) && (First_Day == 1)) {
+      var Rows = 4;
+   }
+   else {
+      var Rows = 5;
+   }
+
+   var HTML_String = '<table><tr><td valign="top"><table BORDER=4 CELLSPACING=1 cellpadding=2 FRAME="box" BGCOLOR="C0C0C0" BORDERCOLORLIGHT="808080">';
+
+   HTML_String += '<tr><th colspan=7 BGCOLOR="FFFFFF" BORDERCOLOR="000000">' + Heading + '</font></th></tr>';
+
+   HTML_String += '<tr><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Sun</th><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Mon</th><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Tue</th><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Wed</th>';
+
+   HTML_String += '<th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Thu</th><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Fri</th><th ALIGN="CENTER" BGCOLOR="FFFFFF" BORDERCOLOR="000000">Sat</th></tr>';
+
+   var Day_Counter = 1;
+   var Loop_Counter = 1;
+   for (var j = 1; j <= Rows; j++) {
+      HTML_String += '<tr ALIGN="left" VALIGN="top">';
+      for (var i = 1; i < 8; i++) {
+         if ((Loop_Counter >= First_Day) && (Day_Counter <= Days_in_Month[Month])) {
+            if ((Day_Counter == Today) && (Year == Current_Year) && (Month == Current_Month)) {
+               HTML_String += '<td BGCOLOR="FFFFFF" BORDERCOLOR="000000"><strong><font color="red">' + Day_Counter + '</font></strong></td>';
+            }
+            else {
+               HTML_String += '<td BGCOLOR="FFFFFF" BORDERCOLOR="000000">' + Day_Counter + '</td>';
+            }
+            Day_Counter++;    
+         }
+         else {
+            HTML_String += '<td BORDERCOLOR="C0C0C0"> </td>';
+         }
+         Loop_Counter++;
+      }
+      HTML_String += '</tr>';
+   }
+   HTML_String += '</table></td></tr></table>';
+   cross_el=ns6? document.getElementById("Calendar") : document.all.Calendar
+   cross_el.innerHTML = HTML_String;
+}
+
+
+function Check_Nums() {
+   if ((event.keyCode < 48) || (event.keyCode > 57)) {
+      return false;
+   }
+}
+
+
+
+function On_Year() {
+   var Year = document.when.year.value;
+   if (Year.length == 4) {
+      Selected_Month = document.when.month.selectedIndex;
+      Selected_Year = Year;
+      Make_Calendar(Selected_Year, Selected_Month);
+   }
+}
+
+function On_Month() {
+   var Year = document.when.year.value;
+   if (Year.length == 4) {
+      Selected_Month = document.when.month.selectedIndex;
+      Selected_Year = Year;
+      Make_Calendar(Selected_Year, Selected_Month);
+   }
+   else {
+      alert('Please enter a valid year.');
+      document.when.year.focus();
+   }
+}
+
+
+function Defaults() {
+   if (!ie4&&!ns6)
+   return
+   var Mid_Screen = Math.round(document.body.clientWidth / 2);
+   document.when.month.selectedIndex = Current_Month;
+   document.when.year.value = Current_Year;
+   Selected_Month = Current_Month;
+   Selected_Year = Current_Year;
+   Make_Calendar(Current_Year, Current_Month);
+}
+
+
+function Skip(Direction) {
+   if (Direction == '+') {
+      if (Selected_Month == 11) {
+         Selected_Month = 0;
+         Selected_Year++;
+      }
+      else {
+         Selected_Month++;
+      }
+   }
+   else {
+      if (Selected_Month == 0) {
+         Selected_Month = 11;
+         Selected_Year--;
+      }
+      else {
+         Selected_Month--;
+      }
+   }
+   Make_Calendar(Selected_Year, Selected_Month);
+   document.when.month.selectedIndex = Selected_Month;
+   document.when.year.value = Selected_Year;
+}
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Untitled Document</title>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+<style type="text/css">
+<!--
+body {
+	background-image: url(coleres-difuminados-1-728.jpg);
+	background-color: #00FFFF;
+}
+body,td,th {
+	color: #00FFFF;
+}
+-->
+</style></head>
+
+<body>
+<div id="Layer1" style="position:absolute; left:464px; top:145px; width:799px; height:562px; z-index:1">
+  <script language="javascript">
+<!--//
+/*This Script allows people to enter by using a form that asks for a
+UserID and Password*/
+function pasuser(form) {
+if (form.id.value=="sistemas") { 
+if (form.pass.value=="1234") {              
+location="https://ariel12120066.github.io/introisc01ac/index.htm" 
+} else {
+alert("Invalid Password")
+}
+} else {  alert("Invalid UserID")
+}
+}
+//-->
+</script>
+
+<center>
+<table width="473" height="528" border="1" cellpadding="12" bgcolor="white">
+<tr><td colspan="2"><center>
+  <h1><i><b>EMPRESA</b></i></h1>
+</center></td></tr>
+<tr><td><h1><i><b>USUARIO ID:</b></i></h1></td><td><form name="login"><input
+name="id" type="text"></td></tr>
+<tr><td><h1><i><b>CONTRACE&Ntilde;A:</b></i></h1></td><td><input name="pass"
+type="password"></td></tr>
+<tr><td><center><input type="button" value="Login"
+onClick="pasuser(this.form)"></center></td><td><center><br><input
+type="Reset"></form></td></tr></table></center> </div>
+<div id="Layer2" style="position:absolute; left:625px; top:67px; width:472px; height:51px; z-index:2">
+<h2><script language="JavaScript1.2">
+
+//Neon Lights Text II by G.P.F. (gpf@beta-cc.de)
+//visit http://www.beta-cc.de
+//Visit http://www.dynamicdrive.com for this script 
+
+var message="favor de ingresar su usuario y contraceña"
+var neonbasecolor="gray"
+var neontextcolor="yellow"
+var neontextcolor2="#FFFFA8"
+var flashspeed=100						// speed of flashing in milliseconds
+var flashingletters=3						// number of letters flashing in neontextcolor
+var flashingletters2=1						// number of letters flashing in neontextcolor2 (0 to disable)
+var flashpause=0						// the pause between flash-cycles in milliseconds
+
+///No need to edit below this line/////
+
+var n=0
+if (document.all||document.getElementById){
+document.write('<font color="'+neonbasecolor+'">')
+for (m=0;m<message.length;m++)
+document.write('<span id="neonlight'+m+'">'+message.charAt(m)+'</span>')
+document.write('</font>')
+}
+else
+document.write(message)
+
+function crossref(number){
+var crossobj=document.all? eval("document.all.neonlight"+number) : document.getElementById("neonlight"+number)
+return crossobj
+}
+
+function neon(){
+
+//Change all letters to base color
+if (n==0){
+for (m=0;m<message.length;m++)
+crossref(m).style.color=neonbasecolor
+}
+
+//cycle through and change individual letters to neon color
+crossref(n).style.color=neontextcolor
+
+if (n>flashingletters-1) crossref(n-flashingletters).style.color=neontextcolor2 
+if (n>(flashingletters+flashingletters2)-1) crossref(n-flashingletters-flashingletters2).style.color=neonbasecolor
+
+
+if (n<message.length-1)
+n++
+else{
+n=0
+clearInterval(flashing)
+setTimeout("beginneon()",flashpause)
+return
+}
+}
+
+function beginneon(){
+if (document.all||document.getElementById)
+flashing=setInterval("neon()",flashspeed)
+}
+beginneon()
+
+
+</script></h2></div>
+<div id="Layer3" style="position:absolute; left:52px; top:52px; width:327px; height:386px; z-index:3"><div id=NavBar style="position:relative;width:286px;top:5px;" align="left">
+<form name="when"><table>
+<tr>
+   <td><input type="button" value="<-- Last" onClick="Skip('-')"></td>
+   <td> </td>
+   <td><select name="month" onChange="On_Month()">
+
+<script language="JavaScript1.2">
+if (ie4||ns6){
+   for (j=0;j<Month_Label.length;j++) {
+      document.writeln('<option value=' + j + '>' + Month_Label[j]);
+   }
+}
+</script>
+
+       </select>
+   </td>
+   <td><input type="text" name="year" size=4 maxlength=4 onKeyPress="return Check_Nums()" onKeyUp="On_Year()"></td>
+   <td> </td>
+   <td><input type="button" value="Next -->" onClick="Skip('+')"></td>
+</tr></table></form></div>
+<div id=Calendar style="position:relative;width:238px;top:-2px;" align="left"></div></div>
+<div id="Layer4" style="position:absolute; left:1111px; top:377px; width:333px; height:104px; z-index:4"><b>
+
+<script>
+
+/*
+RAINBOW TEXT Script by Matt Hedgecoe (c) 2002
+Featured on JavaScript Kit
+For this script, visit http://www.javascriptkit.com
+*/
+
+// ********** MAKE YOUR CHANGES HERE
+
+var text="GRACIAS POR SU VISITA A NUETRA PAGINA WEB" // YOUR TEXT
+var speed=80 // SPEED OF FADE
+
+// ********** LEAVE THE NEXT BIT ALONE!
+
+
+if (document.all||document.getElementById){
+document.write('<span id="highlight">' + text + '</span>')
+var storetext=document.getElementById? document.getElementById("highlight") : document.all.highlight
+}
+else
+document.write(text)
+var hex=new Array("00","14","28","3C","50","64","78","8C","A0","B4","C8","DC","F0")
+var r=1
+var g=1
+var b=1
+var seq=1
+function changetext(){
+rainbow="#"+hex[r]+hex[g]+hex[b]
+storetext.style.color=rainbow
+}
+function change(){
+if (seq==6){
+b--
+if (b==0)
+seq=1
+}
+if (seq==5){
+r++
+if (r==12)
+seq=6
+}
+if (seq==4){
+g--
+if (g==0)
+seq=5
+}
+if (seq==3){
+b++
+if (b==12)
+seq=4
+}
+if (seq==2){
+r--
+if (r==0)
+seq=3
+}
+if (seq==1){
+g++
+if (g==12)
+seq=2
+}
+changetext()
+}
+function starteffect(){
+if (document.all||document.getElementById)
+flash=setInterval("change()",speed)
+}
+starteffect()
+</script>
+</b>
+
+<p align="center">&nbsp;</p>
+</div>
+<div id="Layer5" style="position:absolute; left:616px; top:8px; width:558px; height:122px; z-index:5">
+  <script>
+//set style for NS4 to ''
+if (document.layers)
+var ns4def=''
+</script>
+
+<h2 id="flyin" style="position:relative;left:-800px;font-style:italic" style=&{ns4def};>BIENVENIDOS MEXICO!</h4>
+
+
+<script language="JavaScript1.2">
+
+/*
+Fly-in Header script (credit must stay enclosed)
+By javascriptkit.com
+For this and over 400+ JavaScripts,
+Visit http://www.javascriptkit.com
+*/
+
+
+if (document.getElementById||document.all)
+var crossheader=document.getElementById? document.getElementById("flyin").style : document.all.flyin.style
+
+function animatein(){
+if (parseInt(crossheader.left)<0)
+crossheader.left=parseInt(crossheader.left)+20+"px"
+else{
+crossheader.left=0
+crossheader.fontStyle="normal"
+clearInterval(start)
+}
+}
+
+if (document.getElementById||document.all)
+start=setInterval("animatein()",50)
+
+
+</script>
+
+<p align="center">&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body><body onLoad="Defaults()">
+</html>
